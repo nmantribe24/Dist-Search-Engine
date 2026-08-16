@@ -1,0 +1,347 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.7in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\titleformat{\section}
+{\large\bfseries}
+{\thesection}
+{1em}
+{}
+
+\titleformat{\subsection}
+{\normalsize\bfseries}
+{\thesubsection}
+{1em}
+{}
+
+\begin{document}
+
+\begin{center}
+
+{\Large \textbf{Distributed Search Engine}}\\
+\vspace{5pt}
+
+{\large Project Proposal}\\
+\vspace{6pt}
+
+Submitted to: Dr. Jeelani\\
+\vspace{3pt}
+
+\textbf{Thapar Institute of Engineering and Technology}\\
+\vspace{4pt}
+
+Department of Computer Science and Engineering\\
+\vspace{10pt}
+
+Hitesh, CSED\hspace{20pt}
+Agambir Singh, CSED\hspace{20pt}
+Nityam Mantri, CSED
+
+\vspace{4pt}
+
+August 2026
+
+\end{center}
+
+
+\section{Higher-order goal}
+
+This project aims to design and develop a \textbf{scalable distributed search engine} capable of efficiently indexing, processing, and retrieving information from large document collections. The primary objective is to build a production-oriented search platform that overcomes the limitations of traditional single-node search systems through \textbf{distributed architecture, efficient indexing techniques, and relevance-based ranking mechanisms}.
+
+The system focuses on applying modern backend engineering principles, \textbf{microservices architecture}, and distributed computing techniques. The project emphasizes practical implementation of concepts such as service communication, concurrency management, caching, fault tolerance, and containerized deployment.
+
+
+\section{Problem Statement}
+
+Modern applications generate massive volumes of structured and unstructured textual data that require efficient retrieval mechanisms. Traditional single-server search systems face limitations when handling large datasets and increasing user traffic.
+
+A scalable search engine requires optimized indexing structures, parallel query processing, and intelligent ranking methods to provide fast and accurate results.
+
+Common challenges include:
+
+\begin{itemize}
+
+\item \textbf{Limited scalability:} A single search server becomes a performance bottleneck as the document collection and number of concurrent users increase. The system requires horizontal scaling through distributed search nodes.
+
+\item \textbf{High query latency:} Sequential searching over large collections results in increased response time. Efficient indexing and parallel query execution are required to achieve low latency retrieval.
+
+\item \textbf{Poor fault tolerance:} Failure of a single component can impact the complete search workflow. Distributed services improve reliability by isolating failures.
+
+\item \textbf{Limited search relevance:} Traditional keyword matching may fail to understand semantic relationships between queries and documents. Combining keyword-based ranking with semantic similarity improves retrieval quality.
+
+\end{itemize}
+
+
+\section{Proposed Solution}
+
+\subsection{Overview}
+
+The proposed system is a \textbf{distributed search engine}. The architecture separates different responsibilities such as document ingestion, indexing, query processing, ranking, and storage into independent services.
+
+The system distributes search operations across multiple \textbf{search shards}, where each shard maintains a portion of the indexed data. A central coordinator manages incoming queries, communicates with shards, and combines results to generate the final ranked response.
+
+The major components include:
+
+\begin{itemize}
+
+\item \textbf{Document ingestion service:} Responsible for collecting documents, performing preprocessing operations, and preparing data for indexing.
+
+\item \textbf{Indexing service:} Generates and maintains \textbf{inverted indexes} that allow efficient document retrieval.
+
+\item \textbf{Query coordinator:} Handles incoming search requests and manages communication between users and search services.
+
+\item \textbf{Search shard services:} Maintain distributed portions of the index and execute queries in parallel.
+
+\item \textbf{Ranking module:} Improves result ordering using relevance scoring techniques such as \textbf{BM25 ranking} and semantic similarity.
+
+\item \textbf{Caching layer:} Reduces repeated query processing time and improves system responsiveness.
+
+\end{itemize}
+
+
+\subsection{Core workflow}
+
+\begin{enumerate}
+
+\item Documents are collected through the ingestion pipeline and processed using text normalization and tokenization techniques.
+
+\item The indexing service creates an \textbf{inverted index structure} that maps terms to relevant documents.
+
+\item Index data is distributed among multiple search shards to enable parallel retrieval.
+
+\item User queries are received by the coordinator service.
+
+\item The coordinator performs concurrent searches across multiple shards.
+
+\item Results from different shards are merged using a \textbf{Top-K ranking algorithm}.
+
+\item The final ranked documents are returned to the user.
+
+\end{enumerate}
+
+
+\section{Solution Approach}
+
+This project focuses on building a \textbf{scalable backend system} using distributed system principles rather than developing new search algorithms. The objective is to integrate existing information retrieval methods into a reliable software architecture.
+
+
+\subsection{Indexing and retrieval}
+
+The search engine uses an \textbf{inverted index} as the primary data structure for efficient document retrieval.
+
+The indexing pipeline includes:
+
+\begin{itemize}
+
+\item \textbf{Text normalization and tokenization:} Converts raw documents into searchable representations.
+
+\item \textbf{Keyword extraction:} Identifies important terms required for efficient indexing.
+
+\item \textbf{Index generation:} Creates document-term mappings for fast retrieval.
+
+\item \textbf{Efficient storage:} Maintains indexed information for quick access during search operations.
+
+\end{itemize}
+
+
+The ranking system combines traditional information retrieval methods with semantic search techniques:
+
+\begin{itemize}
+
+\item \textbf{BM25 based scoring:} Calculates keyword relevance between queries and documents.
+
+\item \textbf{Vector embedding similarity:} Captures semantic relationships between queries and documents.
+
+\item \textbf{Hybrid ranking:} Combines multiple ranking signals to improve search accuracy.
+
+\end{itemize}
+
+
+\subsection{Distributed architecture}
+
+The system follows a \textbf{microservice-based architecture} consisting of:
+
+\begin{itemize}
+
+\item \textbf{Search Coordinator:} Receives queries, distributes requests, and performs final result aggregation.
+
+\item \textbf{Search Shards:} Maintain independent portions of the search index and process queries concurrently.
+
+\item \textbf{Indexer Service:} Creates, updates, and manages search indexes.
+
+\item \textbf{Storage Layer:} Stores documents, metadata, and persistent application information.
+
+\end{itemize}
+
+
+\subsection{Service communication and coordination}
+
+The system will use:
+
+\begin{itemize}
+
+\item \textbf{REST APIs} for external user communication.
+
+\item \textbf{gRPC communication} for efficient internal service communication.
+
+\item \textbf{Service discovery} for dynamically locating available components.
+
+\item \textbf{Docker containers} for deployment and service isolation.
+
+\end{itemize}
+
+
+\section{Evaluation Criterion}
+
+The system will be evaluated using measurable performance, scalability, and search quality metrics.
+
+\subsection{Primary evaluation metrics}
+
+\textbf{Query latency:}
+
+Measures the time required between receiving a query and returning ranked results.
+
+\begin{itemize}
+\item Target: Maintain low response time under increasing document size and query load.
+\end{itemize}
+
+
+\textbf{Search relevance:}
+
+Measures the quality of retrieved documents based on ranking accuracy.
+
+\begin{itemize}
+\item Evaluated by comparing returned results with expected relevant documents.
+\end{itemize}
+
+
+\subsection{Secondary evaluation metrics}
+
+\begin{itemize}
+
+\item \textbf{Indexing throughput:} Measures the rate at which documents can be processed and indexed.
+
+\item \textbf{Queries processed per second:} Evaluates system handling capacity.
+
+\item \textbf{Cache hit ratio:} Measures the effectiveness of the caching layer.
+
+\item \textbf{System availability:} Evaluates reliability during operation.
+
+\item \textbf{Resource utilization:} Measures CPU and memory usage under concurrent workloads.
+
+\end{itemize}
+
+
+\section{Scalability}
+
+The system is designed to support increasing document collections and user traffic through distributed processing.
+
+Scalability will be achieved through:
+
+\begin{itemize}
+
+\item \textbf{Horizontal scaling} of search shard services.
+
+\item \textbf{Stateless backend services} allowing independent deployment.
+
+\item \textbf{Distributed indexing} for handling large document collections.
+
+\item \textbf{Database optimization} using indexing and efficient queries.
+
+\item \textbf{Containerized deployment} for flexible infrastructure management.
+
+\item \textbf{Parallel query execution} for reducing response time.
+
+\end{itemize}
+
+
+\section{Engine availability heuristic}
+
+The project will use mature software components to focus on system design, implementation, and scalability.
+
+The technology stack includes:
+
+\begin{itemize}
+
+\item \textbf{Java Spring Boot} for backend microservices.
+
+\item \textbf{PostgreSQL} for persistent storage.
+
+\item \textbf{Redis} for caching frequently accessed queries.
+
+\item \textbf{gRPC} for service-to-service communication.
+
+\item \textbf{Docker} for deployment and service management.
+
+\item \textbf{Monitoring tools} for observing system performance.
+
+\end{itemize}
+
+
+\section{Project scope and deliverables}
+
+\subsection{Initial deliverable}
+
+\begin{itemize}
+
+\item Document ingestion pipeline.
+
+\item Search API implemented using Spring Boot.
+
+\item Basic inverted index implementation.
+
+\item Query processing service.
+
+\item Ranking module.
+
+\item Docker based local deployment.
+
+\end{itemize}
+
+
+\subsection{Subsequent deliverables}
+
+\begin{itemize}
+
+\item Distributed shard-based search architecture.
+
+\item Parallel query execution.
+
+\item Redis caching layer.
+
+\item Semantic search using embeddings.
+
+\item Monitoring and performance analysis dashboard.
+
+\end{itemize}
+
+
+\section{Risks and mitigations}
+
+\begin{itemize}
+
+\item \textbf{Scalability issues:} Addressed through distributed architecture and horizontal scaling.
+
+\item \textbf{Search quality limitations:} Improved through hybrid ranking combining keyword and semantic methods.
+
+\item \textbf{Service failures:} Managed through monitoring and fault-tolerant communication.
+
+\item \textbf{Performance bottlenecks:} Reduced using caching and optimized indexing strategies.
+
+\end{itemize}
+
+
+\section{Summary}
+
+This project proposes a \textbf{distributed search engine implemented using Java Spring Boot and modern backend technologies}. The system combines efficient indexing, distributed query processing, caching, and relevance-based ranking to provide fast and accurate search results.
+
+The project demonstrates practical distributed systems engineering concepts including \textbf{microservices, concurrency, scalability, fault tolerance, and reliable deployment practices}. The final system aims to provide a strong foundation for building production-level search infrastructure.
+
+
+\end{document}
